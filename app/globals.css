@@ -1,26 +1,507 @@
-@import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #1A3D2B;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 40px;
+  transition: background 0.4s ease, backdrop-filter 0.4s ease;
+}
+
+nav.scrolled {
+  background: white;
+  backdrop-filter: blur(10px);
+}
+
+/* Logo */
+.logo img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Nav links — desktop */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-size: 0.95rem;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #f0b100;
+}
+
+nav.scrolled .nav-links a {
+  color: #1A3D2B;
+}
+
+/* Nav button */
+.nav-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #f0b100, #eab308);
+  color: black;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.nav-btn:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* Burger — caché sur desktop */
+.burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+  touch-action: manipulation;
+}
+
+.burger span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: white;
+  border-radius: 3px;
+  transition: background 0.3s;
+}
+
+nav.scrolled .burger span {
+  background: #1A3D2B;
+}
+
+/* ============================================================
+   SECTIONS (base)
+   ============================================================ */
+section {
+  padding: 80px 40px;
+  display: flex;
+  align-items: center;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('/image_fond_seopc.webp') center / cover no-repeat;
+  filter: blur(6px);
+  opacity: 0.4;
+  z-index: -1;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  background: linear-gradient(90deg, #f0b100, #eab308);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero p {
+  margin-top: 20px;
+  opacity: 0.85;
+  max-width: 600px;
+  margin-inline: auto;
+}
+
+/* ============================================================
+   BOUTON GÉNÉRIQUE
+   ============================================================ */
+.btn {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 14px 30px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #f0b100, #eab308);
+  color: black;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+.btn.secondary {
+  background: #1f7a3a;
+  color: white;
+}
+
+/* ============================================================
+   ATELIERS
+   ============================================================ */
+#ateliers {
+  flex-direction: column;
+}
+
+#ateliers h1 {
+  text-align: center;
+  font-size: 4rem;
+}
+
+/* ============================================================
+   TITRES H2 GLOBAUX
+   ============================================================ */
+h2 {
+  text-align: center;
+  font-size: 2.5rem;
+}
+
+/* ============================================================
+   SPLIT (image + texte côte à côte)
+   ============================================================ */
+.split {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.split > div {
+  flex: 1;
+  min-width: 280px;
+}
+
+.split img {
+  width: 100%;
+  border-radius: 15px;
+}
+
+/* ============================================================
+   SLIDER
+   ============================================================ */
+.slider-container {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+.cards {
+  display: flex;
+  gap: 30px;
+  margin-top: 60px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.card {
+  flex: 1;
+  min-width: 250px;
+  max-width: 300px;
+  padding: 20px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid transparent;
+  text-align: center;
+  transition: transform 0.3s, border-color 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  border-color: #f0b100;
+}
+
+/* ============================================================
+   CHALLENGES
+   ============================================================ */
+#challenges {
+  flex-direction: column;
+}
+
+/* ============================================================
+   CTA
+   ============================================================ */
+.cta {
+  text-align: center;
+  flex-direction: column;
+}
+
+/* ============================================================
+   NEWSLETTER
+   ============================================================ */
+.newsletter {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  flex-direction: column;
+}
+
+.newsletter::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('/photo-seopc.jpeg') center / cover no-repeat;
+  filter: blur(6px);
+  opacity: 0.35;
+  z-index: -1;
+}
+
+.newsletter input {
+  padding: 12px;
+  width: 250px;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  background: #142f22;
+  padding: 60px 40px 20px;
+  margin-top: 60px;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+.footer-brand {
+  max-width: 280px;
+}
+
+.footer-brand img {
+  width: 140px;
+  margin-bottom: 15px;
+}
+
+.footer-brand p {
+  opacity: 0.8;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.footer-block {
+  display: flex;
+  flex-direction: column;
+  min-width: 160px;
+}
+
+.footer-block h3 {
+  margin-bottom: 15px;
+  color: #f0b100;
+}
+
+.footer-block a {
+  text-decoration: none;
+  color: white;
+  opacity: 0.8;
+  margin-bottom: 8px;
+  transition: opacity 0.3s, color 0.3s, transform 0.3s;
+}
+
+.footer-block a:hover {
+  opacity: 1;
+  color: #f0b100;
+  transform: translateX(5px);
+}
+
+.footer-copy {
+  text-align: center;
+  margin-top: 40px;
+  opacity: 0.6;
+  font-size: 0.9rem;
+}
+
+/* ============================================================
+   RESPONSIVE — TABLET (≤ 900px)
+   ============================================================ */
+@media (max-width: 900px) {
+
+  /* Burger visible */
+  .burger {
+    display: flex;
+  }
+
+  /* Bouton inscription caché */
+  .nav-btn {
+    display: none;
+  }
+
+  /* Menu fermé : hors écran à gauche */
+  .nav-links {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 220px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    padding: 20px;
+    background: white;
+    z-index: 999;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    pointer-events: none;
+  }
+
+  /* Menu ouvert */
+  .nav-links.active {
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  .nav-links a {
+    color: #1A3D2B;
+    width: 100%;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(26, 61, 43, 0.1);
+  }
+
+  .nav-links a:last-child {
+    border-bottom: none;
+  }
+
+
+
+
+
+
+  
+}
+
+/* ============================================================
+   RESPONSIVE — MOBILE (≤ 768px)
+   ============================================================ */
+@media (max-width: 768px) {
+
+  nav {
+    padding: 15px 20px;
+  }
+
+  section {
+    padding: 100px 20px 60px;
+  }
+
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+
+  #ateliers h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-brand {
+    max-width: 100%;
+  }
+
+  .footer-block {
+    align-items: center;
+  }
+}
+
+/* ============================================================
+   CORRECTIONS LAYOUT — empêche main de bloquer la navbar
+   ============================================================ */
+
+/* Supprime tout ce que Tailwind peut injecter sur body/main */
+body {
+  min-height: unset !important;
+  display: block !important;
+}
+
+main {
+  display: block !important;
+  flex: unset !important;
+  /* Laisse de l'espace pour la navbar fixe */
+  padding-top: 70px;
+}
+
+/* Le burger doit toujours être cliquable */
+.burger {
+  position: relative;
+  z-index: 1001; /* au-dessus de tout */
 }
