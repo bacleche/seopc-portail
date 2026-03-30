@@ -34,8 +34,9 @@ export default function Challenge() {
                     </div>
 
                 </div>
-                <button className="btn" onClick={challenge}>Participer</button>
             </div>
+            <button className="btn" onClick={challenge}>Participer</button>
+
         </section>
     );
 }
